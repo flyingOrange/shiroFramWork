@@ -29,13 +29,13 @@
 	</bean>
 
 	<!-- 自定义 -->
-	<!-- <bean id="cacheManager" class="XXXXX"></bean> -->
+	<bean id="cacheManager" class="XXXXX"></bean>
 
 	<!-- 自定义realm -->
 	<bean id="authRealm" class="realm.AuthRealm" />
 
 	<!-- 自定义 -->
-	<bean id="sessionDAO" class="cache.IpaySessionDao">
+	<bean id="sessionDAO" class="XXXXX">
 	</bean>
 
 	<!-- 安全管理器 -->
@@ -45,7 +45,23 @@
 		<property name="cacheManager" ref="cacheManager" />
 	</bean>
 
+	<!-- 设置应用的唯一安全管理器 -->
+	<bean
+		class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="staticMethod"
+			value="org.apache.shiro.SecurityUtils.setSecurityManager" />
+		<property name="arguments" ref="securityManager" />
+	</bean>
 
+	<!-- Shiro生命周期处理器 -->
+	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
+
+	<!-- 开启shiro注解 -->
+	<aop:config proxy-target-class="true"></aop:config>  
+	<bean
+		class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+		<property name="securityManager" ref="securityManager"></property>
+	</bean>
 
 </beans>
 
