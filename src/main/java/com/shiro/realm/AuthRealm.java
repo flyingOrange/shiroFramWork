@@ -6,6 +6,7 @@ import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 
@@ -42,6 +43,16 @@ public class AuthRealm extends AuthorizingRealm {
         SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(principal, credentials, realmName);
 
         return null;
+    }
+    
+    public static void main(String[] args) {
+        String algorithmName = "MD5";
+        String source = "123";
+        String salt = null;
+        int hashIterations = 5;
+        Object result = new SimpleHash(algorithmName, source, salt, hashIterations) ;
+        System.out.println(result);
+        
     }
 
 }

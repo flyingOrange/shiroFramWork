@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:util="http://www.springframework.org/schema/util" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
            http://www.springframework.org/schema/context
@@ -13,31 +15,45 @@
            http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
 
 	<!-- 1.安全管理器 -->
-	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+	<bean id="securityManager"
+		class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
 		<property name="cacheManager" ref="cacheManager" />
 		<property name="realm" ref="authRealm" />
 		<property name="sessionManager" ref="sessionManager" />
 	</bean>
-	
+
 	<!-- 2.自定义 -->
 	<bean id="cacheManager" class="com.shiro.cache.MyCacheManager"></bean>
-	
+
 	<!-- 3.自定义realm,实现Realm接口 -->
-	<bean id="authRealm" class="com.shiro.realm.AuthRealm" />
-	
+	<bean id="authRealm" class="com.shiro.realm.AuthRealm">
+		<property name="credentialsMatcher">
+			<bean
+				class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
+				<!-- 加密方法 -->
+				<property name="hashAlgorithmName" value="MD5" />
+				<!-- 加密次数 -->
+				<property name="hashIterations" value="5" />
+			</bean>
+		</property>
+	</bean>
+
 	<!-- 4.Shiro生命周期处理器,自动调用配置在spring容器中的shiro bean方法 -->
-	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
-	
+	<bean id="lifecycleBeanPostProcessor"
+		class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
+
 	<!-- 5.开启shiro注解 -->
-	<bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
-          depends-on="lifecycleBeanPostProcessor"/>
+	<bean
+		class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
+		depends-on="lifecycleBeanPostProcessor" />
 	<bean
 		class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
 		<property name="securityManager" ref="securityManager"></property>
 	</bean>
-	
-	<!-- 6.  与spring集成,id必须和shiroFilter与web.xml中的filter对应 -->
-	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+
+	<!-- 6. 与spring集成,id必须和shiroFilter与web.xml中的filter对应 -->
+	<bean id="shiroFilter"
+		class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
 		<property name="securityManager" ref="securityManager" />
 	</bean>
 
@@ -46,8 +62,10 @@
 		class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
 		<property name="globalSessionTimeout" value="1800000" />
 		<property name="deleteInvalidSessions" value="true" />
-		<property name="sessionValidationSchedulerEnabled" value="true" />
-		<property name="sessionValidationScheduler" ref="sessionValidationScheduler" />
+		<property name="sessionValidationSchedulerEnabled"
+			value="true" />
+		<property name="sessionValidationScheduler"
+			ref="sessionValidationScheduler" />
 		<property name="sessionDAO" ref="sessionDAO" />
 		<property name="sessionIdCookie" ref="sessionIdCookie" />
 	</bean>
