@@ -2,11 +2,11 @@ package com.shiro.service;
 
 import java.util.List;
 
-import com.shiro.model.Role;
+import com.shiro.model.RoleInfo;
 
 public interface RoleService {
     
-    public void addRole(Role role);
+    public void addRole(RoleInfo role);
     
     public void deleteRole(long roleId);
     

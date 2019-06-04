@@ -22,11 +22,21 @@
 	<!-- 2.自定义 -->
 	<bean id="cacheManager" class="com.shiro.cache.MyCacheManager"></bean>
 	
-	<!-- 3.自定义realm -->
+	<!-- 3.自定义realm,实现Realm接口 -->
 	<bean id="authRealm" class="com.shiro.realm.AuthRealm" />
 	
+	<!-- 4.Shiro生命周期处理器,自动调用配置在spring容器中的shiro bean方法 -->
+	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
 	
-	<!-- 与spring集成,shiroFilter与web.xml中的filter对应 -->
+	<!-- 5.开启shiro注解 -->
+	<bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
+          depends-on="lifecycleBeanPostProcessor"/>
+	<bean
+		class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+		<property name="securityManager" ref="securityManager"></property>
+	</bean>
+	
+	<!-- 6.  与spring集成,id必须和shiroFilter与web.xml中的filter对应 -->
 	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
 		<property name="securityManager" ref="securityManager" />
 	</bean>
@@ -54,14 +64,6 @@
 		<property name="arguments" ref="securityManager" />
 	</bean>
 
-	<!-- Shiro生命周期处理器 -->
-	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
-
-	<!-- 开启shiro注解 -->
-	<bean
-		class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
-		<property name="securityManager" ref="securityManager"></property>
-	</bean>
 
 </beans>
 

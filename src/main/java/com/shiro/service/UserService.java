@@ -2,11 +2,13 @@ package com.shiro.service;
 
 import java.util.List;
 
-import com.shiro.model.User;
+import com.shiro.model.UserInfo;
 
 public interface UserService {
     
-    public void createUser(User user);
+    public List<UserInfo> list();
+    
+    public void createUser(UserInfo user);
     
     public void changePassword(long userId,String newPassword);
     
