@@ -9,6 +9,7 @@ import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.util.ByteSource;
 
 public class AuthRealm extends AuthorizingRealm {
 
@@ -40,9 +41,10 @@ public class AuthRealm extends AuthorizingRealm {
         Object principal = username;
         Object credentials = "123";
         String realmName = getName();
-        SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(principal, credentials, realmName);
+        ByteSource credentialsSalt = null;
+        SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(principal, credentials, credentialsSalt,realmName);
 
-        return null;
+        return info;
     }
     
     public static void main(String[] args) {
