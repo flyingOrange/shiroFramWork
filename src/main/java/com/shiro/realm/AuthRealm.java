@@ -32,9 +32,8 @@ public class AuthRealm extends AuthorizingRealm {
         // 用户不存在,抛出异常
 
         // 根据用户状况，抛出其他异常(如用户被锁定)
-        
-        
-        //CredentialsMatcher属性比对密码
+
+        // CredentialsMatcher属性比对密码
 
         // principal-认证信息实体 credentials-密码
         // realmName-当前realm对象的name,调用父类getName()即可
@@ -42,19 +41,20 @@ public class AuthRealm extends AuthorizingRealm {
         Object credentials = "123";
         String realmName = getName();
         ByteSource credentialsSalt = null;
-        SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(principal, credentials, credentialsSalt,realmName);
+        SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(principal, credentials, credentialsSalt,
+                realmName);
 
         return info;
     }
-    
+
     public static void main(String[] args) {
         String algorithmName = "MD5";
         String source = "123";
         String salt = null;
         int hashIterations = 5;
-        Object result = new SimpleHash(algorithmName, source, salt, hashIterations) ;
+        Object result = new SimpleHash(algorithmName, source, salt, hashIterations);
         System.out.println(result);
-        
+
     }
 
 }
