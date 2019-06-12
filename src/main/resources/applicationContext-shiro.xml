@@ -17,13 +17,14 @@
 	<!-- 1.安全管理器 -->
 	<bean id="securityManager"
 		class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
-		<property name="cacheManager" ref="cacheManager" />
+		<!-- <property name="cacheManager" ref="cacheManager" /> -->
 		<property name="realm" ref="authRealm" />
 		<property name="sessionManager" ref="sessionManager" />
 	</bean>
 
-	<!-- 2.自定义 -->
-	<bean id="cacheManager" class="com.shiro.cache.MyCacheManager"></bean>
+	<!-- 2.自定义   可以不用 
+	<bean id="cacheManager" class="com.shiro.cache.MyCacheManager">
+	</bean>-->
 
 	<!-- 3.自定义realm,实现Realm接口 -->
 	<bean id="authRealm" class="com.shiro.realm.AuthRealm">
@@ -64,14 +65,13 @@
 		<property name="deleteInvalidSessions" value="true" />
 		<property name="sessionValidationSchedulerEnabled"
 			value="true" />
-		<property name="sessionValidationScheduler"
-			ref="sessionValidationScheduler" />
 		<property name="sessionDAO" ref="sessionDAO" />
-		<property name="sessionIdCookie" ref="sessionIdCookie" />
+<!-- 		<property name="sessionIdCookie" ref="sessionIdCookie" /> -->
 	</bean>
 
 	<!-- 自定义 -->
-	<bean id="sessionDAO" class="XXXXX">
+	<bean id="sessionDAO" class="com.shiro.cache.SessionDAO">
+		
 	</bean>
 
 	<!-- 设置应用的唯一安全管理器 -->

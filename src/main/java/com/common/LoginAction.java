@@ -1,5 +1,8 @@
 package com.common;
 
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpSession;
+
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -41,7 +44,9 @@ public class LoginAction {
     
     @RequiresPermissions("test:add")
     @RequestMapping("permission")
-    public void testPermission() {
+    public void testPermission(HttpSession httpSession) {
+        System.out.println("testPermission");
+        httpSession.setAttribute("test", "33haha");
         
     }
     
