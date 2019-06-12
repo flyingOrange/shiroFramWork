@@ -24,7 +24,7 @@ public class AuthRealm extends AuthorizingRealm {
         Object principal = principals.getPrimaryPrincipal();
         
         //利用用户信息从缓存或数据库中查询用户role和perm
-        Set<String> roles = new HashSet<>();
+        Set<String> roles = new HashSet<String>();
         
         //创建并返回SimpleAuthorizationInfo
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo(roles);
